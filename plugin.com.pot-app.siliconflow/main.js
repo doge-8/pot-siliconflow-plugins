@@ -1,3 +1,7 @@
+function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 async function translate(text, from, to, options) {
     const { config, utils } = options;
     const { tauriFetch: fetch } = utils;
@@ -21,7 +25,7 @@ async function translate(text, from, to, options) {
             ? `Translate the following text into ${to}. Output only the translation:\n\n${text}`
             : `Translate the following text from ${from} to ${to}. Output only the translation:\n\n${text}`;
 
-    const res = await fetch(requestPath, {
+    const fetchOptions = {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
@@ -41,7 +45,31 @@ async function translate(text, from, to, options) {
                 enable_thinking: false,
             },
         },
-    });
+    };
+
+    // 自动重试：硅基流动偶发 TLS 握手中断 / 网络抖动时重连，最多 3 次
+    const maxRetries = 3;
+    let res;
+    let lastErr;
+    for (let attempt = 1; attempt <= maxRetries; attempt++) {
+        try {
+            res = await fetch(requestPath, fetchOptions);
+            // 5xx 服务端错误也重试
+            if (!res.ok && res.status >= 500 && attempt < maxRetries) {
+                lastErr = `Http Status: ${res.status}`;
+                await sleep(500 * attempt);
+                continue;
+            }
+            break;
+        } catch (e) {
+            lastErr = e;
+            if (attempt < maxRetries) {
+                await sleep(500 * attempt);
+                continue;
+            }
+            throw `网络请求失败（已重试 ${maxRetries} 次）：${typeof e === "string" ? e : (e && e.message) || JSON.stringify(e)}`;
+        }
+    }
 
     if (res.ok) {
         const result = res.data;
