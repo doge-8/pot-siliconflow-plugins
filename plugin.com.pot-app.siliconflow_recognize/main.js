@@ -59,8 +59,8 @@ async function recognize(base64, lang, options) {
         },
     };
 
-    // 自动重试：硅基流动偶发 TLS 握手中断 / 网络抖动时重连，最多 3 次
-    const maxRetries = 3;
+    // 自动重试：硅基流动偶发 TLS 握手中断 / 网络抖动时重连，最多 5 次
+    const maxRetries = 5;
     let res;
     let lastErr;
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
