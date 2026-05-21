@@ -1,0 +1,58 @@
+{
+    "id": "plugin.com.pot-app.siliconflow",
+    "plugin_type": "translate",
+    "version": "1.0.0",
+    "author": "qc",
+    "icon": "siliconflow.svg",
+    "display": "硅基流动",
+    "homepage": "https://siliconflow.cn",
+    "needs": [
+        {
+            "key": "apiKey",
+            "display": "API Key",
+            "type": "input"
+        },
+        {
+            "key": "model",
+            "display": "模型",
+            "type": "select",
+            "options": {
+                "Qwen/Qwen3.5-4B": "Qwen/Qwen3.5-4B",
+                "Qwen/Qwen3-8B": "Qwen/Qwen3-8B"
+            }
+        }
+    ],
+    "language": {
+        "auto": "auto",
+        "zh_cn": "Simplified Chinese",
+        "zh_tw": "Traditional Chinese",
+        "yue": "Cantonese",
+        "ja": "Japanese",
+        "en": "English",
+        "ko": "Korean",
+        "fr": "French",
+        "es": "Spanish",
+        "ru": "Russian",
+        "de": "German",
+        "it": "Italian",
+        "tr": "Turkish",
+        "pt_pt": "Portuguese",
+        "pt_br": "Brazilian Portuguese",
+        "vi": "Vietnamese",
+        "id": "Indonesian",
+        "th": "Thai",
+        "ms": "Malay",
+        "ar": "Arabic",
+        "hi": "Hindi",
+        "mn_cy": "Mongolian (Cyrillic)",
+        "mn_mo": "Mongolian (Traditional)",
+        "km": "Khmer",
+        "nb_no": "Norwegian Bokmål",
+        "nn_no": "Norwegian Nynorsk",
+        "fa": "Persian",
+        "sv": "Swedish",
+        "pl": "Polish",
+        "nl": "Dutch",
+        "uk": "Ukrainian"
+    }
+}
